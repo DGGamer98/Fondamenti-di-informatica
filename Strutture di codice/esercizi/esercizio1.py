@@ -1,0 +1,10 @@
+'''Esercizio 1) 
+L’utente inserisce un numero maggiore di uno e il programma continua a calcolare le potenze del numero inserito fino a quando una potenza supera 5000.'''
+
+x = int(input("Inserisci un numero: "))
+
+while (x < 5000):
+    print(x)
+    x+=x
+    
+
