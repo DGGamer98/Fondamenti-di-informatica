@@ -123,19 +123,19 @@ class CentroLancio:
         self.sonde.append(sonda)
         print("[LOG] Sonda già presente ")
         
-    '''def tecnico_ispeziona(self, tecnico, razzo):  # ASSOCIAZIONE
-    # stampa "Tecnico X ispeziona il razzo Y"
-    # mostra il log della scatola nera del razzo
+    def tecnico_ispeziona(self, tecnico , razzo): #ASSOCIAZIONE
+        print(f"{tecnico} ispeziona il razzo {razzo}")
+        print(razzo.self.scatolaNera.mostra_log)
 
     @log_lancio
     def report_centro(self):
-        # stampa nome centro
-        # stampa tutti i razzi con stato
-        # stampa tutte le sonde con stato
-        # stampa quanti razzi sono già stati lanciati'''
-        
-    
-            
+        print(f"Nome centro: {self.nome}")
+
+        for razzo in self.razzi:
+            print(razzo)
+
+        for sonda in self.sonde:
+            print(sonda)
         
 r1 = Razzo("Vega-C", 100)
 r2 = Razzo("Ariane-6", 100)        
@@ -146,3 +146,6 @@ r1.aggiungi_payload("COSMO-SkyMed")
 r1.segna_pronto()
 
 r1.lancia()
+
+print(r1)  # esiste ancora!
+print(r1.scatolaNera.mostra_log())
