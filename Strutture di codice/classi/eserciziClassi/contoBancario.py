@@ -1,3 +1,14 @@
+class SaldoInsufficienti(Exception):
+    pass
+
+class ImportoNonValido(Exception):
+    pass
+
+class ContoChiuso(Exception):
+    pass
+
+
+
 class contoBancario:
     banca = "banca d'italia"
     counter = 0
@@ -6,13 +17,16 @@ class contoBancario:
         contoBancario.counter+=1
         self.titolare = titolare
         self.saldo = 0
+        self.attivo = False
         self.iban = f"IT{contoBancario.counter:04b}"
         self.storico = []
 
     #Metodo per depositarte
     def deposita(self, importo):
         if importo <= 0:
-            print("[LOG] Importo non valido")
+            raise ImportoNonValido("Importo non valido")
+        elif self.attivo == False:
+            raise ContoChiuso("Il conto non è attivo")
         else:
             self.saldo += importo
             totImporto = f"Deposito {importo}"
@@ -22,7 +36,11 @@ class contoBancario:
     #Metodo per prelevare
     def preleva(self, importo):
         if importo > self.saldo:
-            print("[LOG] Saldo insufficiente")
+            raise SaldoInsufficienti("Il saldo non è sufficiente")
+        elif self.attivo == False:
+            raise ContoChiuso("Il conto non è attivo")
+        elif importo <= 0:
+            ImportoNonValido("Impossible prelevare 0 euro")
         else:
             self.saldo-=importo
             totPrelievo = f"Prelievo {importo}"

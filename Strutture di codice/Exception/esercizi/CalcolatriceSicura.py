@@ -1,23 +1,3 @@
-'''TODO Davide
-Esercizio 1 — Facile: Calcolatrice sicura
-Scrivi una funzione per ognuna delle 4 operazioni aritmetiche. Ogni funzione deve gestire le eccezioni con try/except:
-python
-
-def addizione(a, b):
-    # gestisci ValueError se a o b non sono numeri
-
-def sottrazione(a, b):
-    # gestisci ValueError se a o b non sono numeri
-
-def moltiplicazione(a, b):
-    # gestisci ValueError se a o b non sono numeri
-
-def divisione(a, b):
-    # gestisci ValueError se a o b non sono numeri
-    # gestisci ZeroDivisionError se b è 0
-Con un menu while che chiede i due numeri e chiama la funzione giusta. Se l'utente inserisce lettere invece di numeri, il programma non deve crashare ma stampare un messaggio di errore e riproporre il menu.
-'''
-
 def addizione(a, b):
     try:
         # Convertiamo forzatamente i valori
