@@ -19,32 +19,33 @@ class TermostatoIntelligente():
         return self.__modalita
     
     
-    
     @lettura_valore_temperatura.setter
-    def set_valore_temperatura(self):
-        if self.lettura_valore_temperatura >= 10 and self.lettura_valore_temperatura <= 30:
+    def lettura_valore_temperatura(self, temperatura_target):
+        if temperatura_target >= 10 and temperatura_target <= 30:
             print("[LOG] temperatura entro i limiti")
         else:
-            print("[ERROR] temperatura al di fuori dei limiti")
-        #TODO Controllare la logica
-        self.__temperatura_target = self.set_valore_temperatura
+            raise ValueError("[ERROR] temperatura fuori dai limiti, deve essere compresa tra 10 e 30 gradi")
+        self.__temperatura_target = temperatura_target #setter intercetta quando scriviamo
     
+    @lettura_valore_modalita.setter
+    def lettura_valore_modalita(self, modalita):
+        listaMod = ["riscaldamento","raffreddamento","automatico"]
         
-    
-    '''TODO -Impostazione vincoli semantici la temperatura target deve essere compresa tra 10 e 30 gradi;
-            
-            -la modalità deve essere una tra:
-                -"riscaldamento"
-                -"raffreddamento"
-                -"automatico"
-'''
+        #controllo se modalita non esiste nella lista
+        if modalita not in listaMod:
+            raise ValueError ("[ERROR] modalità non presente")
+        else:
+            self.__modalita = modalita
+            print(f"[LOG] Hai scelto {modalita}")
+
 
 
 #Regione per i test
 termostato = TermostatoIntelligente(30, "Spento", "riscaldamento")
 
+termostato.lettura_valore_temperatura=25 #uso il setter
+print(termostato.lettura_valore_temperatura) #uso il getter
 
-print(termostato.lettura_valore_temperatura)
+termostato.lettura_valore_modalita = "riscaldamento"
 print(termostato.lettura_valore_modalita)
-print(termostato.lettura_valore_accesso)
 
