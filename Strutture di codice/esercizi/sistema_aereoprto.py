@@ -12,12 +12,18 @@ class Gate():
     
     '''TODO Davide: capire il perché nono stante si controlla la lista non stampa niente'''
     def cerca_voli(self, numeroVolo):
-        if numeroVolo in self.voliAssegnati[0:-1]:
-            print("volo trovato")
-            return numeroVolo
-        else:
-            print("volo non trovato")
-            return None
+        for volo in self.voliAssegnati:
+            if str(volo.numeroVolo) == str(numeroVolo):
+                print("volo trovato")
+                return volo
+            else:
+                print("Volo non trovato")
+                return None
+                
+        
+    def stampa_lista(self):
+        for x in self.voliAssegnati:
+            print(x)
 
     def __str__(self):
         voli_str = ", ".join(str(v) for v in self.voliAssegnati)  # converte ogni oggetto
@@ -82,8 +88,8 @@ voli1 = Voli("rt-b34","Stati Uniti",3)
 # print(Aereoporto1)
 # print(voli1)
 
-# passeggero1.assegnazioneGate(gate1) #Associativa
-# gate1.assegnaVoli(voli1)
+passeggero1.assegnazioneGate(gate1) #Associativa
+gate1.assegnaVoli(voli1)
 
 # print(gate1)
 
@@ -91,5 +97,7 @@ voli1.add_passeggeri(passeggero1)
 voli1.add_passeggeri(passeggero2)
 print(voli1)
 
-print(gate1.cerca_voli("rt-b34"))
+gate1.cerca_voli("rt-b34")
+
+
 
