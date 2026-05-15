@@ -1,42 +1,3 @@
-'''TODO Davide
-Esercizio 3 — Medio (solo traccia): Sistema Aeroporto 
-Contesto: Devi progettare un sistema di gestione per un aeroporto che gestisce voli, passeggeri e gate.
-Requisiti del sistema:
-Il sistema deve modellare le seguenti entità: 
-
-un Passeggero con nome, codice fiscale e bagagli; 
-un Volo che ha un numero di volo, destinazione, capienza massima e lista passeggeri; 
-un Gate che gestisce i voli assegnati; 
-un Aeroporto che coordina tutto.
-
-Relazioni richieste:
-
-Deve essere presente almeno una ereditarietà
-Deve essere presente almeno una composizione
-Deve essere presente almeno una aggregazione
-Deve essere presente almeno una associazione
-
-Eccezioni da gestire:
-
-Volo pieno quando si cerca di aggiungere un passeggero oltre la capienza
-Passeggero già presente nel volo
-Gate non disponibile
-Bagaglio troppo pesante (limite 23kg)
-Volo non trovato quando si cerca per numero
-
-Decorator richiesti:
-
-Uno di log con timestamp
-Uno di validazione
-
-Il sistema deve permettere di:
-
-Aggiungere passeggeri a un volo
-Assegnare un volo a un gate
-Fare il check-in di un passeggero
-Stampare il report completo dell'aeroporto
-Cercare un volo per numero
-'''
 class Gate():
     def __init__(self, codiceGate, lato, nomeGate):
         self.codiceGate = codiceGate
@@ -48,6 +9,15 @@ class Gate():
     def assegnaVoli(self, voli):
         self.voliAssegnati.append(voli)
         print(f"[LOG] volo assengato al gate {self.nomeGate} codiceGate: {self.codiceGate}")
+    
+    '''TODO Davide: capire il perché nono stante si controlla la lista non stampa niente'''
+    def cerca_voli(self, numeroVolo):
+        if numeroVolo in self.voliAssegnati[0:-1]:
+            print("volo trovato")
+            return numeroVolo
+        else:
+            print("volo non trovato")
+            return None
 
     def __str__(self):
         voli_str = ", ".join(str(v) for v in self.voliAssegnati)  # converte ogni oggetto
@@ -69,6 +39,9 @@ class Passeggero:
         self.bagagli = bagagli
 
     def assegnazioneGate(self, gate): #Associazione ---> uso class gate
+        if self.bagagli > 23:
+            raise ValueError("Bagaglio troppo pesante")
+        
         print(f"Il passeggero {self.nome} è stato assegnato il gate {gate}")
 
     def __str__(self):
@@ -83,34 +56,40 @@ class Voli:
 
     #Passo l'istanza di passeggeri come parametro in ingresso 
     def add_passeggeri(self, passeggeri):
-        self.lista_passeggeri.append(passeggeri)
-        print("[LOG] passeggero aggiunto")
-
+        
+        if len(self.lista_passeggeri) < self.capienza_massima:
+                self.lista_passeggeri.append(passeggeri)
+                print("[LOG] passeggero aggiunto")
+        else:
+            raise ValueError ("Errore di capienza")
+        
+        if passeggeri in self.lista_passeggeri[0:-1]: #Controllo se il passeggero è già presente nella lista, escludendo l'ultimo elemento che è quello appena aggiunto
+            raise ValueError("Passeggero già presente nel volo")
+        
     def __str__(self):
         passeggeri = ", ".join(str(v) for v in self.lista_passeggeri)
         return f"Scheda voli: | numero volo {self.numeroVolo} | destinazione {self.destinazione} | capienza massima {self.capienza_massima} | lista passeggeri: {passeggeri}"
 
-    
-    
-    
-
-#TODO Execution testing for the task on python.   
-
 
 passeggero1 = Passeggero("Davide", "DVDFDF99D99D99D9", 2)
+passeggero2 = Passeggero("Luca", "LCCU23ZB", 1)
+
 gate1 = Gate("A1", "sinistro", "Gate A1")
 Aereoporto1 = Aereoporto("Fiumicino", 3)
-voli1 = Voli("rt-b34","Stati Uniti",120)
+voli1 = Voli("rt-b34","Stati Uniti",3)
 
-print(passeggero1)
-print(Aereoporto1)
-print(voli1)
+# print(passeggero1)
+# print(Aereoporto1)
+# print(voli1)
 
-#TODO aggiungere dei voli al gate
-passeggero1.assegnazioneGate(gate1) #Associativa
-gate1.assegnaVoli(voli1)
+# passeggero1.assegnazioneGate(gate1) #Associativa
+# gate1.assegnaVoli(voli1)
 
-print(gate1)
+# print(gate1)
 
 voli1.add_passeggeri(passeggero1)
+voli1.add_passeggeri(passeggero2)
 print(voli1)
+
+print(gate1.cerca_voli("rt-b34"))
+
