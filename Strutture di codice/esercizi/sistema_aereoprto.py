@@ -10,7 +10,6 @@ class Gate():
         self.voliAssegnati.append(voli)
         print(f"[LOG] volo assengato al gate {self.nomeGate} codiceGate: {self.codiceGate}")
     
-    '''TODO Davide: capire il perché nono stante si controlla la lista non stampa niente'''
     def cerca_voli(self, numeroVolo):
         for volo in self.voliAssegnati:
             if str(volo.numeroVolo) == str(numeroVolo):

@@ -70,27 +70,51 @@ class Ospite():
         return self.__numero_documento
     
     #SETTER
-    @nome.setter
+    @eta.setter
     def eta(self, eta):
         #Logica per controllare se il ragazzo è maggiorenne o no
-        if eta > 18:
+        if eta >= 18:
             print("[LOG] ragazzo maggiorenne")
+            self.__eta = eta
         else:
             raise ValueError("[Error] Il ragazzo è minorenne")
-        self.__eta = eta
+    
+    def __str__(self):
+        return f"| Nome: {self.nome} | Età: {self.eta} | numero documento: {self.numero_documento}"
     
 class Camera():
-    def __init__(self, numero,  prezzo_notte):
+    def __init__(self, numero, prezzo_notte):
         self.numero = numero
         self.tipo = ["singolo","matrimoniale","suite"]
         self.prezzo_notte = prezzo_notte
-        self.camere_disponibili = 300
     
-# class Prenotazione():
-#     def __init__(self, data_checkin, data_checkout):
-#         self.data_checkin = data_checkin
-#         self.data_checkout = data_checkout
+class Prenotazione(Camera):
+    def __init__(self, numero, prezzo_notte, data_checkin, data_checkout):
+        super().__init__(numero, prezzo_notte)
+        self.data_checkin = data_checkin
+        self.data_checkout = data_checkout
+        self.camere_disponibili = 300
+        self.camere_prenotate = {}
 
-#     def prenota_stanza(self, Camera, Ospite):
+    def prenota_stanza(self, Camera, Ospite):
+        if self.data_checkout > self.data_checkin:
+            raise ValueError ("il checkout non può essere maggiore di data checkin")
+        elif self.data_checkin == self.data_checkout:
+            raise ValueError("il checkoin non può essere uguale al checkout")
+        
+        self.camere_prenotate.update(Camera,Ospite)
+        print(f"[LOG] La camera {Camera} è stata prenotata per {Ospite}")
+        
 
- 
+'''ZONA DI TEST PER L'ALGORITMO DEL CODICE PYTHON'''
+
+ospite1 = Ospite("Davide",23,"BA23cz90")
+
+# ospite1.nome = "Davide"
+#ospite1.numero_documento = "BA23cz90"
+ospite1.eta = 18
+print(ospite1)
+
+#TODO Davide: Testare il metodo delle prenotazioni e decrementare il numero delle camere disponibili
+
+
