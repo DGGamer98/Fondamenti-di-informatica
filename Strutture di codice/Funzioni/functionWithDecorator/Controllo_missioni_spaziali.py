@@ -10,7 +10,7 @@ def log_missione(funzione):
 
 def verifica_missioni_vuote(funzione):
     def wrapper(*args, **kwargs):
-        lista = args[0]
+        lista =  args[0]
         if len(lista) == 0:
             print("This list is empty")
             return

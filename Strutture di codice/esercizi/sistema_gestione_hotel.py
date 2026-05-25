@@ -25,11 +25,11 @@ Il numero di camera deve essere maggiore di 0
 
 Eccezioni da gestire:
 
-Camera già occupata
-Ospite già registrato
+Camera già occupata (customizzato)
+Ospite già registrato (customizzato)
 Date non valide (check-out prima di check-in)
 Documento d'identità non valido (meno di 5 caratteri)
-Hotel al completo
+Hotel al completo (customizzato)
 
 Decorator richiesti:
 
@@ -42,6 +42,33 @@ Registrare un ospite
 Prenotare una camera
 Fare il check-in e check-out
 Stampare il report completo dell'hotel con camere libere e occupate'''
+
+#Eccezzioni Customizzate
+class Camera_gia_occupata(Exception):
+    pass
+class Ospite_già_registrati(Exception):
+    pass
+class Hotel_al_completo(Exception):
+    pass
+
+#Decorator
+def log_function(function):
+    def wrapper(*args, **kwargs):
+        print(f"[LOG] operazioni in corso {function.__name__}")
+        result = function(*args, **kwargs)
+        print("[LOG] operazione terminata")
+        return result
+    return wrapper
+
+def check_camera_disponibile(function):
+    def wrapper(*args, **kwargs):
+        numCam = int(input("> "))
+        if numCam in function.camere_prenotate:
+            raise Camera_gia_occupata("La camera è già occupata")
+        else:
+            print("[LOG la camera è disponibile]")
+        return function(*args, **kwargs)
+    return wrapper
 
 class Hotel():
     def __init__(self, nomeHotel, indirizzo, numero_camere):
@@ -84,13 +111,37 @@ class Ospite():
     
 class Camera():
     def __init__(self, numero, prezzo_notte):
-        self.numero = numero
+        self.__numero = numero
         self.tipo = ["singolo","matrimoniale","suite"]
-        self.prezzo_notte = prezzo_notte
-
-    def __str__(self):
-        return f"Camera: | numero: {self.numero} | tipo: {"singolo"} | prezzo notte:  {self.prezzo_notte}"
+        self.__prezzo_notte = prezzo_notte
+        
+    @property
+    def numero(self):
+        return self.__numero
     
+    @property
+    def prezzo_notte(self):
+        return self.__prezzo_notte
+    
+    @numero.setter
+    def numero(self, numero_camera):
+        if numero_camera > 0:
+            self.__numero = numero_camera
+            print("[LOG] prezzo ok")
+        elif numero_camera <= 0:
+            raise ValueError ("[Error] numero camera non può essere minore 0 uguale a 0")
+            
+    @prezzo_notte.setter
+    def prezzo_notte(self, prezzo):
+        if prezzo > 0:
+            self.__prezzo_notte = prezzo
+            print("[LOG] prezzo ok")
+        elif prezzo <= 0:
+            raise ValueError ("[Error] il prezzo non può essere inferiore o uguale a 0")
+            
+    def __str__(self):
+        return f"Camera: | numero: {self.__numero} | tipo: {"singolo"} | prezzo notte:  {self.__prezzo_notte}"
+@log_function
 class Prenotazione():
     def __init__(self, camera, data_checkin, data_checkout):
         self.camera = camera
@@ -98,16 +149,15 @@ class Prenotazione():
         self.data_checkout = data_checkout
         self.camere_disponibili = 300
         self.camere_prenotate = {}
-
+        
+    @check_camera_disponibile
     def prenota_stanza(self, Camera, Ospite):
         self.camere_prenotate[Camera] = Ospite
         self.camere_disponibili -= 1
         print(f"[LOG] camera aggiunta")
-
+ 
     def __str__(self):
-        return f"Prenotazione: ->   {self.camera} | data_checkin: {self.data_checkin} | data checkout: {self.data_checkout} | camere disponibili: {self.camere_disponibili}"
-
-        
+        return f"Prenotazione: -> {self.camera} | data_checkin: {self.data_checkin} | data checkout: {self.data_checkout} | camere disponibili: {self.camere_disponibili}"
 
 '''ZONA DI TEST PER L'ALGORITMO DEL CODICE PYTHON'''
 
