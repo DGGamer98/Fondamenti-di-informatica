@@ -60,14 +60,15 @@ def log_function(function):
         return result
     return wrapper
 
-def check_camera_disponibile(function):
-    def wrapper(*args, **kwargs):
-        numCam = int(input("> "))
-        if numCam in function.camere_prenotate:
-            raise Camera_gia_occupata("La camera è già occupata")
-        else:
-            print("[LOG la camera è disponibile]")
-        return function(*args, **kwargs)
+def check_camera_disponibile(func):
+    def wrapper(self, Camera, Ospite):
+        if Camera in self.camere_prenotate:
+            raise Camera_gia_occupata("[Error] la camera è già occupata")
+        
+        if self.camere_disponibili <= 0:
+            raise Hotel_al_completo("[Error] l'hotel è al completo")
+                
+        return func(self, Camera, Ospite)
     return wrapper
 
 class Hotel():
@@ -143,8 +144,9 @@ class Camera():
         return f"Camera: | numero: {self.__numero} | tipo: {"singolo"} | prezzo notte:  {self.__prezzo_notte}"
 @log_function
 class Prenotazione():
-    def __init__(self, camera, data_checkin, data_checkout):
+    def __init__(self, camera, ospite, data_checkin, data_checkout):
         self.camera = camera
+        self.ospite = ospite
         self.data_checkin = data_checkin
         self.data_checkout = data_checkout
         self.camere_disponibili = 300
@@ -157,18 +159,36 @@ class Prenotazione():
         print(f"[LOG] camera aggiunta")
  
     def __str__(self):
-        return f"Prenotazione: -> {self.camera} | data_checkin: {self.data_checkin} | data checkout: {self.data_checkout} | camere disponibili: {self.camere_disponibili}"
+        return f"Prenotazione: -> {self.camera} | data_checkin: {self.data_checkin} | data checkout: {self.data_checkout} | camere disponibili: {self.camere_disponibili} | Dati ospite: {self.ospite}"
 
 '''ZONA DI TEST PER L'ALGORITMO DEL CODICE PYTHON'''
 
 camera1 = Camera(1213, 30)
+
 ospite1 = Ospite("Davide",23,"BA23cz90")
-prenotazione1 = Prenotazione(camera1, 10, 12)
+ospite2 = Ospite("Luca",25,"CZ23mbrt")
+
+prenotazione1 = Prenotazione(camera1, ospite2, 10, 12)
 
 ospite1.eta = 18
-print(ospite1)
+#print(ospite1)
 
-prenotazione1.prenota_stanza(camera1, ospite1)
-print(prenotazione1)
+#prenotazione ospite 1
+try:
+    prenotazione1.prenota_stanza(camera1, ospite1)
+    print(prenotazione1)
+except ValueError as e:
+    print(f"La camera è già occupata {e}")
+finally:
+    print("Blocco try")
 
+#Prenotazine ospite2
+try:
+    prenotazione1.prenota_stanza(camera1, ospite2)
+    print(prenotazione1)
+except ValueError as e:
+    print(f"La camera è già occupata {e}")
+finally:
+    print("Blocco try")
+    
 
