@@ -1,32 +1,3 @@
-'''Traccia: Sistema Biblioteca
-Contesto: Progetta un sistema per gestire una biblioteca con libri, lettori e bibliotecari.
-Entità del sistema:
-Una Persona come classe base. Un Lettore che prende libri in prestito. Un Bibliotecario che gestisce i prestiti. Un Libro con una sua scheda descrittiva. Una Biblioteca che coordina tutto.
-Relazioni richieste:
-
-Almeno una ereditarietà
-Almeno una composizione
-Almeno una aggregazione
-Almeno una associazione
-
-Vincoli semantici con @property:
-
-L'età deve essere tra 6 e 99
-Un lettore può avere massimo 3 libri in prestito contemporaneamente
-
-Eccezioni da gestire:
-
-Libro non disponibile
-Libro non trovato
-Età non valida (try-except)
-Lettore ha già troppi libri in prestito
-
-Il sistema deve permettere di:
-
-Aggiungere libri e lettori alla biblioteca
-Registrare un prestito
-Cercare un libro per titolo
-Stampare il report completo'''
 #Eccezioni customizzate
 class Libro_non_disponibile(Exception):
     pass
@@ -113,8 +84,9 @@ class Bibliotecaria(Persona):
     def gestore_libri_prenotati(self, lettore, libro):
         self.database_prestiti[str(lettore)] = str(libro) #Aggregazione
         
-        # for x in self.database_prestiti.items():
-        #     print(x)
+        #stampo tutto il contenuto del dizionario
+        for x in self.database_prestiti.items():
+            print(x)
             
     def aggiungi_libri(self, libro):
         libro =  {
@@ -138,57 +110,64 @@ class Bibliotecaria(Persona):
         
 
 class Biblioteca():
-    def sistema_centralizato():
-        lettore = Lettore("Davide","Gatta", 23)   
+    def __init__(self, nome_biblioteca, indirizzo):
+        self.nome_biblioteca = nome_biblioteca
+        self.indirizzo = indirizzo
+        self.bibliotecaria = Bibliotecaria("Mario","Rossi", 35) #Compisizione
+        self.lettore = Lettore("Davide","Gatta", 23)
+        
+        #Test
+        #self.libro = Libro("Divina commedia","Dante", 10.5)
+
+    def sistema_centralizato(self):
+        print("Aggiungi almeno 4 libri alla biblioteca")
+
+        for x in range(1, 4):
+            titolo = input("nome: ")
+            autore = input("cognome: ")
+            costo = float(input("costo: "))
+
+            libro = Libro(titolo, autore, costo)
+
+            #aggiungo dei libri per testare il codice
+            self.bibliotecaria.aggiungi_libri(libro)
+            print(f"{x} libro aggiuto")
+        
+        self.bibliotecaria.cercaLibro()
+        print("x")
+
         while True:
             print("\n")
             print("╔════════════════════════════╗")
             print("║    TERMINALE BIBLIOTECA    ║")
             print("╚════════════════════════════╝")
-            
-            
+                    
             print("\n[ MENU ]")
             print("1 ➜ Prenota libro")
             print("2 ➜ Gestore libri prenotati")
-            
+            print("3 ➜ esci")
+
             scelta = int(input("> "))
-            
             if scelta == 1:
                 #piccolo controllo se il libro esiste ed è disponibile
                 print("check della disponibilià per titolo")
                 titolo = input("titolo: ")
                 
-                if titolo in bibliotecaria.libri_disponibili["titolo"]:
-                    print("[LOG] libro trovato")
+                for libri in self.bibliotecaria.libri_disponibili:
+                    try:
+                        if titolo in libri["titolo"]:
+                            print("[LOG] libro trovato")
+                    except Libro_non_trovato as e:
+                        print(f"libro non trovato {e}")
                 
-                print("Inserisci le infomazioni mancanti: ")
-                autore = input("autore: ")
-                costo = float(input("costo: "))
-                libro = Libro(titolo, autore, costo)
+                #richiamo l'oggetto a riga 158 
+                self.lettore.prenota_libro(libro) #associativa
                 
-                lettore.prenota_libro(libro)
+            elif scelta == 2:
+                self.bibliotecaria.gestore_libri_prenotati(self.lettore, libro)
+            elif scelta == 3:
+                break
                 
-                '''TODO Davide. Finire la classe centralizzata perla gestione di tutti gli attributi e metodi'''
-                
-                    
-                    
-                    
+biblioteca = Biblioteca("Nardi","Roma")
+biblioteca.sistema_centralizato()
 
-                
-                
-        
-    
-#Regione di test
-libro = Libro("Divina commedia","Dante", 10.5)
-libro1 = Libro("Promessi sposi", "Manzoni", 15.4)
-
-lettore = Lettore("Davide","Gatta", 23)
-bibliotecaria = Bibliotecaria("Mario","Rossi", 35)
-
-lettore.prenota_libro(libro)
-lettore.prenota_libro(libro1)
-
-bibliotecaria.gestore_libri_prenotati(lettore, libro)
-bibliotecaria.gestore_libri_prenotati(lettore, libro1)
-
-bibliotecaria.aggiungi_libri(libro)
