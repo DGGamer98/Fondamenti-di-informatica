@@ -58,18 +58,12 @@ class Lettore(Persona):
         
     #Metodo per prendere un libro
     def prenota_libro(self, libro): #associazione di libro
-        if len(self.lista_personale_libri) > 3:
+        if len(self.lista_personale_libri) >= 3:
             raise troppi_libri("il lettore ha già troppi libri")
         else:
             self.lista_personale_libri.append(libro) #aggrego Libro() alla lista di Lettore
-            print("[LOG] libro prenotato")
+            print(f"[LOG] libro prenotato {libro}")
             
-        for libro in self.lista_personale_libri:
-            print(libro)
-            
-        # for x in range(0,3):
-        #     self.lista_personale_libri.append(libro)
-        #     print(f"[LOG] libro aggiunto alla lista {x+1}")
     def __str__(self):
         return f" Scheda Lettore -> | nome: {self.nome} | cognome: {self.cognome} | eta: {self.eta}"
 
@@ -103,6 +97,10 @@ class Bibliotecaria(Persona):
     def cercaLibro (self):
         for x in self.libri_disponibili:
             print(x)
+            
+    def rimuovi_libro(self, libro):
+        self.libri_disponibili.remove(libro)
+            
     
     def __str__(self):
         return f"Operatore Bicliotecario/a -> | nome: {self.nome} | cognome: {self.cognome} | eta: {self.eta}"
@@ -153,18 +151,29 @@ class Biblioteca():
                 print("check della disponibilià per titolo")
                 titolo = input("titolo: ")
                 
+                # 1. prima cerca il libro
+                libro_trovato = None
                 for libri in self.bibliotecaria.libri_disponibili:
-                    try:
-                        if titolo in libri["titolo"]:
-                            print("[LOG] libro trovato")
-                    except Libro_non_trovato as e:
-                        print(f"libro non trovato {e}")
-                
-                #richiamo l'oggetto a riga 158 
-                self.lettore.prenota_libro(libro) #associativa
+                    if libri["titolo"].lower() == titolo.lower():
+                        libro_trovato = libri
+                        break         
+                # 2. poi gestisci fuori dal loop
+                try:
+                    if libro_trovato is None:
+                        raise Libro_non_trovato("Libro non trovato!")
+                    
+                    self.lettore.prenota_libro(libro_trovato)
+                    self.bibliotecaria.rimuovi_libro(libro_trovato)  # ← ora rimuovi fuori dal loop
+                    print("[LOG] Libro aggiunto")
+
+                except Libro_non_trovato as e:
+                    print(f"Errore: {e}")
+                except troppi_libri as e:
+                    print(f"Errore: {e}")
                 
             elif scelta == 2:
-                self.bibliotecaria.gestore_libri_prenotati(self.lettore, libro)
+                for l in self.lettore.lista_personale_libri:
+                    print(l)
             elif scelta == 3:
                 break
                 
