@@ -1,45 +1,3 @@
-'''📋 Traccia: Sistema Palestra Smart
-Contesto: Progetta un sistema per gestire una palestra con attrezzature, membri e istruttori.
-
-Entità del sistema:
--Una Persona come classe base. 
--Un Membro che si allena e usa attrezzature. 
--Un Istruttore che gestisce le sessioni. 
--Una Attrezzatura con una sua scheda tecnica. 
--Una Palestra che coordina tutto.
-
-Relazioni richieste:
-
-Almeno una ereditarietà
-Almeno una composizione
-Almeno una aggregazione
-Almeno una associazione
-
-Vincoli semantici con @property:
-
-L'età deve essere tra 16 e 80
-Il peso dell'attrezzatura deve essere maggiore di 0
-Un membro può prenotare massimo 5 sessioni contemporaneamente
-
-Eccezioni da gestire:
-
-Attrezzatura non disponibile
-Attrezzatura non trovata
-Età non valida (try-except)
-Troppe sessioni prenotate
-Palestra al completo
-
-Decorator richiesti:
-
-Uno di log con timestamp
-Uno che controlla che l'attrezzatura sia disponibile
-
-Il sistema deve permettere di:
-
-Aggiungere attrezzature e membri alla palestra
-Prenotare una sessione con un istruttore
-Cercare un'attrezzatura per nome
-Stampare il report completo'''
 import unittest
 
 class Persona():
@@ -67,11 +25,10 @@ class Persona():
         self.__cognome = cognome
     @eta.setter
     def eta(self, eta):
-        try:
-            if eta >= 16 or eta <= 80:
-                print("[LOG] eta ok")
-        except ValueError as e:
-            print(f"[Error] eta non valida {e}")
+        if eta >= 16 and eta <= 80:
+            print("[LOG] eta ok")
+        else:
+            raise ValueError ("[Error] eta non valida")
             
     def __str__(self):
         return (
@@ -139,7 +96,10 @@ class Istruttore(Persona):
 '''Parte di codice per test'''
 
 membro = Membro("Davide", "Gatta", 23)
-membro1 = Membro("Alfonso", "verde", 30)
+
+membro1 = Membro("Alfonso", "verde", 11)
+#membro1.eta = 12
+
 parallele = Attrezzatura("parallele","usate per allenare il petto e braccia")
 pesi = Attrezzatura("pesi","usati per allenare le braccia")
 istruttore = Istruttore("Luca","Rossi",35)
@@ -163,3 +123,26 @@ print(f"{istruttore} \n")
 
 
 '''Parte di unittest'''
+class Test_Palestra(unittest.TestCase):
+    def setUp(self):
+        membro = Membro("Davide", "Gatta", 23)
+        membro1 = Membro("Alfonso", "verde", 16)
+        parallele = Attrezzatura("parallele","usate per allenare il petto e braccia")
+        pesi = Attrezzatura("pesi","usati per allenare le braccia")
+        istruttore = Istruttore("Luca","Rossi",35)  
+
+    def test_eta_valida(self):
+        persona = membro
+        self.assertEqual(membro, persona)
+
+    def test_eta_non_valida(self):
+        with self.assertRaises(ValueError):
+            membro1.eta = 12
+
+    def test_attrezzatura_non_disponibile(self):
+        with self.assertRaises(ValueError):
+            parallele.rimuovi_attrezzo()
+            pesi.rimuovi_attrezzo()
+
+if __name__ == "__main__":
+    unittest.main()
