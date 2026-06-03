@@ -92,6 +92,7 @@ class Cliente(Persona):
     #associazione di videogioco
     def Aquista(self, video_gioco):
         self.lista_aquisti_personale.append(video_gioco)
+        print("[LOG] gioco acquistato")
     
     def Noleggia(self, video_gioco):
         if len(self.lista_noleggi_personale) < 3:
@@ -110,11 +111,13 @@ class Commesso(Persona):
         print("[LOG] vendita effetuata")
     
     #associo negozio per controllare se il gioco è disponibile
-    def gioco_disponibile(self,titolo, negozio):
-        if titolo in negozio.magazino_giochi:
-            print("[LOG] Gioco trovato")
-        else:
-            raise Gioco_non_trovato("[Error] Il gioco non è disponibile nel negozio")
+    def gioco_disponibile(self, titolo, negozio):
+        #Scorro la lista della classe negozio --> altrimenti si ferma alla prima iterazione e lancia eccezione
+        for elemento in negozio:
+            if titolo in elemento:
+                print("[LOG] Gioco trovato")
+                return True
+        raise Gioco_non_trovato("[Error] Il gioco non è disponibile nel negozio")
     
 class VideoGioco():
     def __init__(self, titolo, costo, peghi, genere):
@@ -158,31 +161,68 @@ class Negozio():
         gioco = {titolo: video_gioco}
         self.magazino_giochi.append(gioco)
         print("[LOG] gioco aggiunto con successo")
-               
-class test_store(unittest.TestCase):
-    def setUp(self):
-        # NOTA: Usiamo "self." per rendere le variabili accessibili negli altri metodi
-        # Dati cliente
-        self.cliente1 = Cliente("Davide", "Gatta", 23)
-        self.cliente2 = Cliente("Ciro", "Rossi", 10)
-        
-        # Dati Commesso
-        self.commesso1 = Commesso("Alfredo", "Bianchi", 33)
-        
-        # Dati videogiochi
-        self.gioco1 = VideoGioco("The Legend of Zelda: Tears of the Kingdom", 69.99, 12, "Avventura")
-        self.gioco2 = VideoGioco("Elden Ring", 59.99, 16, "Action RPG")
-        self.gioco3 = VideoGioco("Super Mario Odyssey", 49.99, 3, "Platform")
-        self.gioco4 = VideoGioco("Cyberpunk 2077", 39.99, 18, "Fantascienza / RPG")
+
+    def rimuovi_gioco(self, titolo):
+        for elemento in self.magazino_giochi:
+            if titolo in elemento:
+                self.magazino_giochi.remove(elemento) #elemento equivale a un'intero dizionario
+                print("[LOG] gioco rimosso")
+                return True
         
 
-    def test_eta_valida(self):
-        self.assertEqual(self.cliente2.eta, 10)
-        
-    def test_eta_troppo_piccola_lancia_eccezione(self):
-        # Verifica che il setter lanci un ValueError se proviamo a inserire un'età inferiore a 10
-        with self.assertRaises(ValueError):
-            Cliente("Bambino", "Piccolo", 9)
-            
 if __name__ == "__main__":
-    unittest.main() 
+            # Dati cliente
+        cliente1 = Cliente("Davide", "Gatta", 23)
+        cliente2 = Cliente("Ciro", "Rossi", 10)
+
+        # Dati Commesso
+        commesso1 = Commesso("Alfredo", "Bianchi", 33)
+
+        game_stop = Negozio("gameStop","Roma est")
+        
+        # Dati gioco
+        gioco1 = VideoGioco("The Legend of Zelda: Tears of the Kingdom", 69.99, 12, "Avventura")
+        gioco2 = VideoGioco("Elden Ring", 59.99, 16, "Action RPG")
+        gioco3 = VideoGioco("Super Mario Odyssey", 49.99, 3, "Platform")
+        gioco4 = VideoGioco("Cyberpunk 2077", 39.99, 18, "Fantascienza / RPG")
+
+        game_stop.aggiungi_giochi_magazino("The Legend of Zelda", gioco1)
+        game_stop.aggiungi_giochi_magazino("Elden Ring", gioco2)
+        game_stop.aggiungi_giochi_magazino("Super Mario Odyssey", gioco3)
+        game_stop.aggiungi_giochi_magazino("Cyberpunk 2077", gioco4)
+
+        if commesso1.gioco_disponibile("Elden Ring", game_stop.magazino_giochi):
+            cliente1.Aquista(gioco1)
+            game_stop.rimuovi_gioco("Elden Ring")
+
+
+
+
+
+# class test_store(unittest.TestCase):
+#     def setUp(self):
+#         # NOTA: Usiamo "self." per rendere le variabili accessibili negli altri metodi
+#         # Dati cliente
+#         self.cliente1 = Cliente("Davide", "Gatta", 23)
+#         self.cliente2 = Cliente("Ciro", "Rossi", 10)
+        
+#         # Dati Commesso
+#         self.commesso1 = Commesso("Alfredo", "Bianchi", 33)
+        
+#         # Dati videogiochi
+#         self.gioco1 = VideoGioco("The Legend of Zelda: Tears of the Kingdom", 69.99, 12, "Avventura")
+#         self.gioco2 = VideoGioco("Elden Ring", 59.99, 16, "Action RPG")
+#         self.gioco3 = VideoGioco("Super Mario Odyssey", 49.99, 3, "Platform")
+#         self.gioco4 = VideoGioco("Cyberpunk 2077", 39.99, 18, "Fantascienza / RPG")
+        
+
+#     def test_eta_valida(self):
+#         self.assertEqual(self.cliente2.eta, 10)
+        
+#     def test_eta_troppo_piccola_lancia_eccezione(self):
+#         # Verifica che il setter lanci un ValueError se proviamo a inserire un'età inferiore a 10
+#         with self.assertRaises(ValueError):
+#             Cliente("Bambino", "Piccolo", 9)
+    
+
+            
