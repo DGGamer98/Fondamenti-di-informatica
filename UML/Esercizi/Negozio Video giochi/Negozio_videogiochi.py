@@ -1,45 +1,3 @@
-'''Traccia: Sistema Negozio di Videogiochi
-Contesto: Progetta un sistema per gestire un negozio di videogiochi con giochi, clienti e commessi.
-Entità del sistema:
-Una Persona come classe base. Un Cliente che acquista e noleggia giochi. Un Commesso che gestisce le vendite. Un Videogioco con una sua scheda tecnica. Un Negozio che coordina tutto.
-Relazioni richieste:
-
-Almeno una ereditarietà
-Almeno una composizione
-Almeno una aggregazione
-Almeno una associazione
-
-Vincoli semantici con @property:
-
-L'età deve essere tra 10 e 99
-Il prezzo del videogioco deve essere maggiore di 0
-Un cliente può noleggiare massimo 3 giochi contemporaneamente
-
-Eccezioni da gestire:
-
-Gioco non disponibile
-Gioco non trovato
-Età non valida
-Troppi noleggi attivi
-Negozio al completo
-
-Il sistema deve permettere di:
-
-Aggiungere videogiochi e clienti al negozio
-Noleggiare un videogioco
-Restituire un videogioco
-Cercare un gioco per titolo
-Stampare il report completo del negozio
-
-Test con unittest:
-
-test_eta_valida — assertEqual
-test_eta_non_valida — assertRaises
-test_noleggio_ok — assertTrue
-test_gioco_non_disponibile — assertRaises
-test_troppi_noleggi — assertRaisesRegex
-
-'''
 import unittest
 
 #Eccezioni customizzate
@@ -48,6 +6,8 @@ class Gioco_non_disponibile(Exception):
 class Gioco_non_trovato(Gioco_non_disponibile):
     pass
 class Negozio_al_completo(Exception):
+    pass
+class Troppi_noleggi_attivi(Exception):
     pass
 
 class Persona():
@@ -95,11 +55,12 @@ class Cliente(Persona):
         print("[LOG] gioco acquistato")
     
     def Noleggia(self, video_gioco):
-        if len(self.lista_noleggi_personale) < 3:
-            self.lista_noleggi_personale.append(video_gioco)
-        elif len(self.lista_noleggi_personale) > 3:
-            raise ValueError("[Error] puoi noleggiare per un massimo di 3 giochi")
-        
+        if len(self.lista_noleggi_personale) >= 3:
+            raise Troppi_noleggi_attivi("Hai superato i 3 noleggi consentiti")
+
+        self.lista_noleggi_personale.append(video_gioco)
+        print("[LOG] gioco noleggiato")
+
 class Commesso(Persona):
     def __init__(self, nome, cognome, eta):
         super().__init__(nome, cognome, eta)
@@ -191,11 +152,14 @@ if __name__ == "__main__":
         game_stop.aggiungi_giochi_magazino("Super Mario Odyssey", gioco3)
         game_stop.aggiungi_giochi_magazino("Cyberpunk 2077", gioco4)
 
-        if commesso1.gioco_disponibile("Elden Ring", game_stop.magazino_giochi):
-            cliente1.Aquista(gioco1)
-            game_stop.rimuovi_gioco("Elden Ring")
+        # if commesso1.gioco_disponibile("Elden Ring", game_stop.magazino_giochi):
+        #     cliente1.Aquista(gioco1)
+        #     game_stop.rimuovi_gioco("Elden Ring")
 
-
+        cliente1.Noleggia(gioco1)
+        cliente1.Noleggia(gioco2)
+        cliente1.Noleggia(gioco3)
+        cliente1.Noleggia(gioco4)
 
 
 
