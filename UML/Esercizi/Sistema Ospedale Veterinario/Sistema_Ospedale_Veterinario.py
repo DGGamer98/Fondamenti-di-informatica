@@ -31,6 +31,7 @@ test_eta_non_valida — assertRaises
 test_visita_ok — assertTrue
 test_troppi_animali — assertRaisesRegex
 test_peso_non_valido — assertRaises
+<<<<<<< HEAD
 '''
 #Exception customizzate
 class Clinica_al_completo(Exception):
