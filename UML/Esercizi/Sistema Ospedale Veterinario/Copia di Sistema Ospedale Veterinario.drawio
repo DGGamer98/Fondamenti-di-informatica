@@ -1,6 +1,10 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Pagina-1" id="MzQtiEVPMOwJ7XDOh124">
+<<<<<<< HEAD
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+=======
     <mxGraphModel dx="1571" dy="863" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+>>>>>>> be4b134e477b40a6210ecba58d3f980c24c58c78
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -17,6 +21,23 @@
           <mxGeometry height="42" width="200" y="108" as="geometry" />
         </mxCell>
         <mxCell id="OPz16zl98fBxYTi84DUQ-13" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Proprietario" vertex="1">
+<<<<<<< HEAD
+          <mxGeometry height="52" width="160" x="140" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="OPz16zl98fBxYTi84DUQ-16" parent="OPz16zl98fBxYTi84DUQ-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ portaAnimale(animale)" vertex="1">
+          <mxGeometry height="26" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="OPz16zl98fBxYTi84DUQ-17" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Veterinario" vertex="1">
+          <mxGeometry height="52" width="160" x="540" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="OPz16zl98fBxYTi84DUQ-20" parent="OPz16zl98fBxYTi84DUQ-17" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ visitaAnimale(Animale)" vertex="1">
+          <mxGeometry height="26" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="OPz16zl98fBxYTi84DUQ-21" edge="1" parent="1" source="OPz16zl98fBxYTi84DUQ-13" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.22;entryY=1.119;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="OPz16zl98fBxYTi84DUQ-4" value="Extends">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="426" />
+=======
           <mxGeometry height="80" width="210" x="90" y="390" as="geometry" />
         </mxCell>
         <mxCell id="OPz16zl98fBxYTi84DUQ-16" parent="OPz16zl98fBxYTi84DUQ-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ portaAnimale(Veterinaio,animale)" vertex="1">
@@ -33,11 +54,18 @@
             <Array as="points">
               <mxPoint x="241" y="360" />
               <mxPoint x="358" y="360" />
+>>>>>>> be4b134e477b40a6210ecba58d3f980c24c58c78
             </Array>
             <mxPoint x="330" y="550" as="sourcePoint" />
             <mxPoint x="490" y="550" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+<<<<<<< HEAD
+        <mxCell id="OPz16zl98fBxYTi84DUQ-22" edge="1" parent="1" source="OPz16zl98fBxYTi84DUQ-20" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.83;entryY=1.024;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.013;exitY=-0.077;exitDx=0;exitDy=0;exitPerimeter=0;" target="OPz16zl98fBxYTi84DUQ-4" value="Extends">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="424" />
+=======
         <mxCell id="OPz16zl98fBxYTi84DUQ-22" edge="1" parent="1" source="OPz16zl98fBxYTi84DUQ-17" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;entryX=0.83;entryY=1.024;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.303;exitY=-0.027;exitDx=0;exitDy=0;exitPerimeter=0;" target="OPz16zl98fBxYTi84DUQ-4" value="Extends">
           <mxGeometry relative="1" width="160" as="geometry">
             <Array as="points">
@@ -45,6 +73,7 @@
               <mxPoint x="560" y="360" />
               <mxPoint x="510" y="360" />
               <mxPoint x="480" y="360" />
+>>>>>>> be4b134e477b40a6210ecba58d3f980c24c58c78
             </Array>
             <mxPoint x="440" y="441" as="sourcePoint" />
             <mxPoint x="484" y="330" as="targetPoint" />
@@ -154,6 +183,8 @@
             <mxPoint x="200" y="1053" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+<<<<<<< HEAD
+=======
         <mxCell id="LOAoM5K3TIM6hT6gQjaX-1" edge="1" parent="1" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="OPz16zl98fBxYTi84DUQ-20" value="">
           <mxGeometry relative="1" width="160" as="geometry">
             <Array as="points">
@@ -188,6 +219,7 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
+>>>>>>> be4b134e477b40a6210ecba58d3f980c24c58c78
       </root>
     </mxGraphModel>
   </diagram>
