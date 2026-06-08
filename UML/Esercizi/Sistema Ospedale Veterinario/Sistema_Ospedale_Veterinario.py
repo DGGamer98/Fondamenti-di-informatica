@@ -40,6 +40,8 @@ class Animale_non_trovato(Exception):
     pass
 class Peso_non_valido(Exception):
     pass
+class Massimo_4_animali(Exception):
+    pass
 
 class Persona():
     def __init__(self, nome, cognome, eta):
@@ -74,13 +76,22 @@ class Persona():
     def __str__(self):
         return f"Persona --> | Nome: {self.nome} | Cognome: {self.cognome} | eta: {self.eta}"
 
-#Classe figlia di Persona
+#Classe figlia di Personax
 class Proprietario(Persona):
     def __init__(self, nome, cognome, eta):
         super().__init__(nome, cognome, eta)
+        self.animali_domestici = []
+
+    def aggiungi_animali(self, animale, nome):
+        if len(self.animali_domestici) >=4:
+            raise Massimo_4_animali("Massimo 4 animali sono consentiti")
+
+        animali = {nome:animale} #creo un dizionario e lo aggiungo alla lista
+        self.animali_domestici.append(animali)
+        print("[LOG] animale aggiunto")
 
     def portaAnimale(self, animale, veterinario): #Associazione con l'istanza della classe Animale
-        pass
+        return f"Il proprietario {self.nome} porta {animale} dal dott. {veterinario}"
 
     def __str__(self):
         return f"Proprietario --> | Nome: {self.nome} | Cognome: {self.cognome} | eta: {self.eta}"
@@ -89,9 +100,12 @@ class Proprietario(Persona):
 class Veterinario(Persona):
     def __init__(self, nome, cognome, eta):
         super().__init__(nome, cognome, eta)
+        self.database_visite = {}
 
     def visita_animale(self, animale, proprietario):
-        pass
+        print(f"[LOG] il veterinario {self.nome} visita: {animale}")
+        self.database_visite[proprietario]=animale
+        print("[LOG] visita registrata ")
 
     def __str__(self):
         return f"Veterinario --> | Nome: {self.nome} | Cognome: {self.cognome} | eta: {self.eta}"
