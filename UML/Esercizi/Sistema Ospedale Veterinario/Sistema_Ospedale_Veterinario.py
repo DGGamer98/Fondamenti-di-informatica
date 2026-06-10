@@ -33,6 +33,9 @@ test_troppi_animali — assertRaisesRegex
 test_peso_non_valido — assertRaises
 <<<<<<< HEAD
 '''
+import unittest
+
+
 #Exception customizzate
 class Clinica_al_completo(Exception):
     pass
@@ -42,12 +45,14 @@ class Peso_non_valido(Exception):
     pass
 class Massimo_4_animali(Exception):
     pass
+class eta_non_valida(Exception):
+    pass
 
 class Persona():
     def __init__(self, nome, cognome, eta):
         self.__nome = nome
         self.__cognome = cognome
-        self.__eta = eta
+        self.eta = eta
 
     #Incapsulamento
     #accesso in sola lettura
@@ -64,13 +69,12 @@ class Persona():
     #Setter
     @eta.setter
     def eta(self, eta):
-        try:
-            if eta > 18:
-                self.__eta = eta
-                print("[LOG] maggiorenne")
-                return True
-        except ValueError as e:
-            print(f"minorenne, {e}")
+        if eta >= 18:
+            self.__eta = eta
+            print("[LOG] maggiorenne")
+            return True
+        else:
+            raise eta_non_valida("minorenne")
 
     #converte in stringa l'oggetto che passiamo per associazione/aggregazione o composizione
     def __str__(self):
@@ -106,6 +110,7 @@ class Veterinario(Persona):
         print(f"[LOG] il veterinario {self.nome} visita: {animale}")
         self.database_visite[proprietario]=animale
         print("[LOG] visita registrata ")
+        return True
 
     def __str__(self):
         return f"Veterinario --> | Nome: {self.nome} | Cognome: {self.cognome} | eta: {self.eta}"
@@ -165,3 +170,33 @@ class Clinica_Veterinaria():
 
 clinica = Clinica_Veterinaria()
 clinica.main()
+
+
+class test_unit(unittest.TestCase):
+    def setUp(self):
+        self.proprietario = Proprietario("Davide","Gatta", 23)
+        self.veterinario = Veterinario("Simona","Rossi", 45)
+        self.animale = Animale("Nora","Felino",12, "gatto tigrato")
+
+    def test_eta_valida(self):
+        # Verifica semplicemente che l'età sia quella corretta
+        self.assertEqual(self.proprietario.eta, 23)
+
+    def test_eta_non_valida(self):
+        with self.assertRaises(eta_non_valida):
+            Proprietario("giovanni", "Gatta", 13)
+    
+    def test_visita_ok(self):
+        self.assertTrue(self.veterinario.visita_animale(self.animale, self.proprietario))
+    
+    def test_troppi_animali(self):
+        self.proprietario.aggiungi_animali(self.animale, "nora1")
+        self.proprietario.aggiungi_animali(self.animale, "nora2")
+        self.proprietario.aggiungi_animali(self.animale, "nora3")
+        self.proprietario.aggiungi_animali(self.animale, "nora4")
+
+        with self.assertRaisesRegex(Massimo_4_animali, "troppi animali"):
+            self.proprietario.aggiungi_animali(self.animale, "tor")
+
+if __name__ == "__main__":
+    unittest.main()
