@@ -27,18 +27,17 @@ def contatore():
 contatore()
 
 
-# # ESERCIZIO 3 — LEGB completo
-# x = "globale"
+# ESERCIZIO 3 — LEGB completo
+x = "globale"
 
-# def esterna():
-#     x = "esterna"
-#     def interna():
-#         # quale x vede questa funzione?
-#         # prova a stampare x senza modificarla
-#         # poi prova a modificarla con nonlocal
-#         pass
-#     interna()
-#     print(x)
+def esterna():
+    x = "esterna"
+    def interna(): 
+        nonlocal x
+        x = "interna"
+        print(x)
+    interna()
+    print(x)
 
-# esterna()
-# print(x)
+esterna()
+print(x)
