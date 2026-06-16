@@ -44,6 +44,7 @@ test_eta_non_valida — assertRaises
 test_test_drive_ok — assertTrue
 test_auto_non_disponibile — assertRaises
 test_troppi_test_drive — assertRaisesRegex'''
+import unittest
 
 class auto_non_disponibile(Exception):
     pass
@@ -141,7 +142,7 @@ class Cliente(Persona):
     
     def noleggio_auto(self, auto, id):
         veicolo = {id: auto}
-        self.aquisti.append(veicolo)
+        self.noleggio.append(veicolo)
         print("[LOG] veicolo noleggiato")
         return self.noleggio
 
@@ -170,11 +171,32 @@ class Venditore(Persona):
         return f"Venditore --> | Nome: {self.nome} | Cognome: {self.cognome} | eta: {self.eta}"
     
 
-cliente1 = Cliente("Davide","Gatta",23)
-venditore = Venditore("Mario","Rossi", 35)
-auto = Auto("Citroen C-3", "Citroen", 2021, 3200, "EURO 5", "No", "Si", "Cattolica")
+# cliente1 = Cliente("Davide","Gatta",23)
+# venditore = Venditore("Mario","Rossi", 35)
+# auto = Auto("Citroen C-3", "Citroen", 2021, 3200, "EURO 5", "No", "Si", "Cattolica")
 
+# print(cliente1)
+# print(venditore)
+# print(auto)
 
-print(cliente1)
-print(venditore)
-print(auto)
+class testCode(unittest.TestCase):
+    #metodo per creare i nostri oggetti
+    def setUp(self):
+        self.cliente1 = Cliente("Davide","Gatta",23)
+        self.venditore = Venditore("Mario","Rossi", 35)
+        self.auto = Auto("Citroen C-3", "Citroen", 2021, 3200, "EURO 5", "No", "Si", "Cattolica")
+        self.auto2 = Auto("Golf 8", "Volkswagen", 2022, 15000, "EURO 6", "No", "Si", "UnipolSai")
+
+    def test_acquisto(self):
+        self.assertTrue(self.cliente1.acquista_auto(self.auto, 1))
+    def test_noleggio(self):
+        self.assertTrue(self.cliente1.noleggio_auto(self.auto2, 1))
+
+    def test_vendita(self):
+        self.assertTrue(self.venditore.gestione_vendite(self.cliente1, self.auto))
+        
+    
+
+        
+if __name__ == "__main__":
+    unittest.main()
