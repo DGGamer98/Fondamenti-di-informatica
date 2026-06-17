@@ -60,7 +60,7 @@ class Persona():
     def __init__(self, nome, cognome, eta):
         self.__nome = nome
         self.__cognome = cognome
-        self.__eta = eta
+        self.eta = eta
 
     @property
     def nome(self):
@@ -84,7 +84,7 @@ class Scheda_Tenica():
     def __init__(self, EURO, GPL, BOLLO_PAGATO, Assicurazione):
         self.__EURO = EURO
         self.__GPL = GPL
-        self.__BOLLO_PAGATO = BOLLO_PAGATO
+        self.BOLLO_PAGATO = BOLLO_PAGATO
         self.__Assicurazione = Assicurazione
 
     #sola lettura
@@ -104,9 +104,9 @@ class Scheda_Tenica():
     #scrittura dei attributi di istanza --> cambiano nel tempo
     @bollo_pagato.setter
     def bollo_pagato(self, new_pagamento):
-        if new_pagamento == 0:
+        if new_pagamento == "No":
             raise ValueError ("Bollo auto non pagato")
-        elif new_pagamento > 0:
+        elif new_pagamento == "Si":
             print("[LOG] bollo auto pagato")
             return True
         
@@ -184,7 +184,7 @@ class testCode(unittest.TestCase):
     def setUp(self):
         self.cliente1 = Cliente("Davide","Gatta",23)
         self.venditore = Venditore("Mario","Rossi", 35)
-        self.auto = Auto("Citroen C-3", "Citroen", 2021, 3200, "EURO 5", "No", "Si", "Cattolica")
+        self.auto = Auto("Citroen C-3", "Citroen", 2021, 3200, "EURO 5", "No", "No", "Cattolica")
         self.auto2 = Auto("Golf 8", "Volkswagen", 2022, 15000, "EURO 6", "No", "Si", "UnipolSai")
 
     def test_acquisto(self):
@@ -195,6 +195,20 @@ class testCode(unittest.TestCase):
     def test_vendita(self):
         self.assertTrue(self.venditore.gestione_vendite(self.cliente1, self.auto))
         
+    def test_eta_valida(self):
+        self.assertEqual(self.cliente1.eta, 23)
+    
+    # def test_controllo_eta(self):
+    #     self.assertRaises(Eta_non_valida, self.cliente1.eta, 11)
+    
+    def test_controllo_eta(self):
+    # Il cliente esiste già grazie al setUp
+        with self.assertRaises(Eta_non_valida):
+            self.cliente1.eta = 11  # Questa assegnazione scatena il setter e lancia l'errore
+            
+    def test_controllo_Bollo(self):
+        with self.assertRaises(ValueError):
+            self.auto.scheda_tecnica.bollo_pagato = "No"
     
 
         
