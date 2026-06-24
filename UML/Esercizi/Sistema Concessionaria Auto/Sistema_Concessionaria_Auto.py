@@ -195,7 +195,6 @@ class testCode(unittest.TestCase):
     def test_vendita(self):
         self.assertTrue(self.venditore.gestione_vendite(self.cliente1, self.auto))
         
-    
 
         
 if __name__ == "__main__":
