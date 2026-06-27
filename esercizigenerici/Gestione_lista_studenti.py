@@ -1,3 +1,5 @@
+s="j2bk#@&4" 
+
 def function (s):
     counter = 0
     for x in s:
