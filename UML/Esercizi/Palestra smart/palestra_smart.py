@@ -145,4 +145,4 @@ class Test_Palestra(unittest.TestCase):
             pesi.rimuovi_attrezzo()
 
 if __name__ == "__main__":
-    unittest.main() 
+    unittest.main()
