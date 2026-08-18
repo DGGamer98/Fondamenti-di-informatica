@@ -146,9 +146,6 @@ class corso():
         return f"Docente iscritto"
     
     
-
-
-
 #Questa entità gestirà tutto !!
 class Università():
     
