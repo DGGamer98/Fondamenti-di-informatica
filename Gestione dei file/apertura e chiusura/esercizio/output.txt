@@ -1,0 +1,6 @@
+1: Mercurio
+1: Venere
+1: Terra
+1: Marte
+1: Giove
+1: Saturno

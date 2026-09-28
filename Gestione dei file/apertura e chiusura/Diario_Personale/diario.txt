@@ -1,0 +1,4 @@
+Ho studiato Python
+Ho mangiato la pizza
+Ho guardato un film
+provo file
