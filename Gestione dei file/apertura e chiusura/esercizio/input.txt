@@ -1,0 +1,6 @@
+Mercurio
+Venere
+Terra
+Marte
+Giove
+Saturno

@@ -1,0 +1,7 @@
+1: Latte
+2: Pane
+3: Pasta
+4: Pomodori
+5: Acqua
+6: biscotti
+7: Mozzarella
