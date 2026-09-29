@@ -1,0 +1,57 @@
+#TODO Davide
+Esercizio 1 — Facile: Note personali
+
+Scrivi un programma che:
+
+Crea un file note.txt e scrive 3 frasi a tua scelta
+Riapre il file e stampa ogni riga con il numero e la lunghezza della riga
+Aggiunge una quarta nota in fondo
+
+Output atteso:
+
+1: Ho studiato Python (18 caratteri)
+2: Oggi fa caldo (14 caratteri)
+3: Devo chiamare Mario (20 caratteri)
+
+-------------------------------
+Esercizio 2 — Medio: Filtro temperature
+
+Hai un file temperature.txt con questi dati:
+
+Lunedi 22
+Martedi 35
+Mercoledi 18
+Giovedi 38
+Venerdi 25
+Sabato 40
+Domenica 15
+
+Scrivi queste funzioni:
+
+python
+def giorni_caldi(nome_file, output_file, soglia):
+    # legge nome_file
+    # scrive in output_file solo i giorni con temperatura >= soglia
+    # formato: "Martedi: 35°C"
+
+def media_temperature(nome_file):
+    # legge il file
+    # calcola e restituisce la media delle temperature
+
+Testa così:
+
+python
+giorni_caldi("temperature.txt", "caldi.txt", 30)
+media_temperature("temperature.txt")
+
+Output atteso caldi.txt:
+
+Martedi: 35°C
+Giovedi: 38°C
+Sabato: 40°C
+
+Output atteso media:
+
+Media temperature: 27.57°C
+
+Suggerimento: per la media somma tutti i voti con un for e dividi per il numero di righe!
